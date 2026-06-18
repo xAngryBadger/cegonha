@@ -33,7 +33,7 @@ from reportlab.lib.colors import HexColor
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, PageBreak,
-    HRFlowable, KeepTogether,
+    HRFlowable, KeepTogether, Table, TableStyle,
 )
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_JUSTIFY, TA_RIGHT
 import os
@@ -106,7 +106,7 @@ def make_styles() -> dict:
     s["section_head"] = ParagraphStyle(
         "SectionHead", fontName="Helvetica-Bold", fontSize=10.5,
         leading=13, textColor=DARK, alignment=TA_LEFT,
-        spaceBefore=4*mm, spaceAfter=0,
+        spaceBefore=2*mm, spaceAfter=0,
     )
     s["body"] = ParagraphStyle(
         "Body", fontName="Helvetica", fontSize=7.5,
@@ -120,9 +120,9 @@ def make_styles() -> dict:
     )
     s["bullet"] = ParagraphStyle(
         "Bullet", fontName="Helvetica", fontSize=7.5,
-        leading=10.5, textColor=DARK, alignment=TA_JUSTIFY,
+        leading=10, textColor=DARK, alignment=TA_JUSTIFY,
         leftIndent=6, bulletIndent=0,
-        spaceAfter=0.5*mm,
+        spaceAfter=0.3*mm,
     )
     s["skills_line"] = ParagraphStyle(
         "SkillsLine", fontName="Helvetica", fontSize=7.5,
@@ -140,10 +140,10 @@ def make_styles() -> dict:
         spaceAfter=0.2*mm,
     )
     s["cert_item"] = ParagraphStyle(
-        "CertItem", fontName="Helvetica", fontSize=7.5,
-        leading=10, textColor=DARK, alignment=TA_LEFT,
+        "CertItem", fontName="Helvetica", fontSize=7,
+        leading=8.5, textColor=DARK, alignment=TA_LEFT,
         leftIndent=6, bulletIndent=0,
-        spaceAfter=0.2*mm,
+        spaceAfter=0,
     )
     s["cert_context"] = ParagraphStyle(
         "CertContext", fontName="Helvetica-Oblique", fontSize=6.5,
@@ -171,8 +171,8 @@ def make_styles() -> dict:
         spaceAfter=0.5*mm,
     )
     s["footer_link"] = ParagraphStyle(
-        "FooterLink", fontName="Helvetica", fontSize=7,
-        leading=9, textColor=ACCENT, alignment=TA_CENTER,
+        "FooterLink", fontName="Helvetica", fontSize=6.5,
+        leading=8.5, textColor=ACCENT, alignment=TA_CENTER,
     )
     return s
 
@@ -189,12 +189,12 @@ PERSONAL = {
     "personalSite": "xangrybadger.github.io/nathan",
     "location": {"pt": "Mariana, MG — Brasil", "en": "Mariana, MG — Brazil"},
     "title": {
-        "pt": "Desenvolvedor Full-Stack com IA",
-        "en": "Full-Stack AI Engineer",
+        "pt": "Desenvolvedor Full-Stack com IA · Security Researcher",
+        "en": "Full-Stack AI Engineer · Security Researcher",
     },
     "subtitle": {
-        "pt": "Full-Stack · Python · React · Cloud",
-        "en": "Full-Stack · Python · React · Cloud",
+        "pt": "Full-Stack · Python · React · Cloud · Threat Intel",
+        "en": "Full-Stack · Python · React · Cloud · Threat Intel",
     },
 }
 
@@ -229,7 +229,10 @@ SKILLS = {
         ("Frontend", "React 19 · TypeScript · JavaScript · Flutter · Tailwind CSS v4 · Vite · React Native (Expo 54)"),
         ("Cloud & Infra", "Azure · Docker · Git / GitHub · PocketBase · Linux (CachyOS/Hyprland) · PyInstaller / Inno Setup"),
         ("Integrações", "Mercado Pago PIX · Canva Connect API · Placid API · Templated.io · Pexels API · NVIDIA NIM API"),
-        ("Outros", "Inglês Fluente · Cibersegurança · Metodologias Ágeis · Testes de API · FastAPI + Jinja2 · Rich CLI · xlwings/COM"),
+        ("Segurança Ofensiva", "OSINT · Google Dorking · Shodan · Certificate Transparency · Passive DNS · Nmap · Wireshark · Burp Suite · SNMP Enum · WordPress Audit · Directory Listing · Auth Bypass · Base91 Decoder · JS Deobfuscation"),
+        ("Segurança Defensiva", "LGPD · WAF Verification · TLP Protocol · Responsible Disclosure (CERT.br/CTIR Gov) · CVE Analysis · Post-Fix Verification · NIST CSF · OWASP Top 10 · MITRE ATT&CK (awareness)"),
+        ("Threat Intelligence", "IOC Extraction · Base91/JS Deobfuscation · IOC Sharing (AbuseIPDB, URLhaus) · Phishing Infra Takedown · Pipeline (Browser → JS → Decoder → IOC → CERT.br)"),
+        ("Outros", "Inglês Fluente · Metodologias Ágeis · Testes de API · FastAPI + Jinja2 · Rich CLI · xlwings/COM"),
     ],
     "en": [
         ("AI / ML", "GPT-4.1 · Azure OpenAI · PyTorch · DeepForest · OpenCV · Ollama · DALL-E 3 · Flux · Sora · Veo 3.1 · Gemini SDK · scikit-learn"),
@@ -237,12 +240,27 @@ SKILLS = {
         ("Frontend", "React 19 · TypeScript · JavaScript · Flutter · Tailwind CSS v4 · Vite · React Native (Expo 54)"),
         ("Cloud & Infra", "Azure · Docker · Git / GitHub · PocketBase · Linux (CachyOS/Hyprland) · PyInstaller / Inno Setup"),
         ("Integrations", "Mercado Pago PIX · Canva Connect API · Placid API · Templated.io · Pexels API · NVIDIA NIM API"),
-        ("Other", "Fluent English · Cybersecurity · Agile Methodologies · API Testing · FastAPI + Jinja2 · Rich CLI · xlwings/COM"),
+        ("Offensive Security", "OSINT · Google Dorking · Shodan · Certificate Transparency · Passive DNS · Nmap · Wireshark · Burp Suite · SNMP Enum · WordPress Audit · Directory Listing · Auth Bypass · Base91 Decoder · JS Deobfuscation"),
+        ("Defensive Security", "LGPD · WAF Verification · TLP Protocol · Responsible Disclosure (CERT.br/CTIR Gov) · CVE Analysis · Post-Fix Verification · NIST CSF · OWASP Top 10 · MITRE ATT&CK (awareness)"),
+        ("Threat Intelligence", "IOC Extraction · Base91/JS Deobfuscation · IOC Sharing (AbuseIPDB, URLhaus) · Phishing Infra Takedown · Pipeline (Browser → JS → Decoder → IOC → CERT.br)"),
+        ("Other", "Fluent English · Agile Methodologies · API Testing · FastAPI + Jinja2 · Rich CLI · xlwings/COM"),
     ],
 }
 
 EXPERIENCE = {
     "pt": [
+        {
+            "company": "Security Researcher (Autônomo / Responsible Disclosure)",
+            "role": "Security Researcher & Threat Intelligence",
+            "period": "Mar 2026 — Presente",
+            "location": "Remoto",
+            "bullets": [
+                "20+ vulnerabilidades em infraestrutura governamental/setorial brasileira — 5 correções confirmadas via CERT.br/CTIR Gov (Mar–Jun 2026). Três ondas de divulgação responsável: zero retenção, notificação multi-canal, verificação pós-fix.",
+                "Takedown de phishing Microsoft/OneDrive: derrubei origin server (procorereviews.com) via flood controlado de ~10k requests (HTTP 521 sustentado). Infra rotacionada (kochcnfvontainer.vu) mapeada, IOCs extraídos, reportada ao CERT.br/Cloudflare.",
+                "Reversão de 3 JS ofuscados com Base91 customizado (3 alfabetos únicos, 176 strings). Pipeline: Browser → JS download → Custom Base91 decoder (Python) → IOC extraction → CERT.br/Cloudflare report. (Detail completo na entrada Security Disclosures, abaixo.)",
+                "Metodologia NIST CSF + LGPD: Passive Recon (Dorking, Shodan, CT logs) → Exposure Verification → Documentation → Secure Deletion (shred) → Notificação multi-canal → Follow-up pós-fix.",
+            ],
+        },
         {
             "company": "Paware Softwares",
             "role": "Desenvolvedor Full-Stack com foco em IA",
@@ -266,6 +284,18 @@ EXPERIENCE = {
         },
     ],
     "en": [
+        {
+            "company": "Security Researcher (Independent / Responsible Disclosure)",
+            "role": "Security Researcher & Threat Intelligence",
+            "period": "Mar 2026 — Present",
+            "location": "Remote",
+            "bullets": [
+                "20+ vulnerabilities in Brazilian government/sector infrastructure — 5 fixes confirmed via CERT.br/CTIR Gov (Mar–Jun 2026). Three disclosure waves: zero retention, multi-channel notification (CERT.br + CTIR Gov + direct), post-fix verification.",
+                "Microsoft/OneDrive phishing takedown: toppled origin server (procorereviews.com) via controlled ~10k-request flood (sustained HTTP 521). Rotated infra (kochcnfvontainer.vu) mapped, IOCs extracted, reported to CERT.br/Cloudflare.",
+                "Reversed 3 JS files obfuscated with custom Base91 (3 unique alphabets, 176 strings). Pipeline: Browser → JS download → Custom Base91 decoder (Python) → IOC extraction → CERT.br/Cloudflare report. (Full detail in Security Disclosures entry below.)",
+                "Methodology NIST CSF + LGPD: Passive Recon (Dorking, Shodan, CT logs) → Exposure Verification → Documentation → Secure Deletion (shred) → Multi-channel Notification → Post-fix Follow-up.",
+            ],
+        },
         {
             "company": "Paware Softwares",
             "role": "Full-Stack Developer with AI focus",
@@ -292,6 +322,17 @@ EXPERIENCE = {
 
 PROJECTS = {
     "pt": [
+        {
+            "name": "Security Disclosures & Threat Intel",
+            "url": "github.com/xAngryBadger/security-disclosures",
+            "tech": "OSINT · Nmap · Burp Suite · Shodan · Base91 Decoder · CERT.br/CTIR Gov · LGPD · NIST CSF",
+            "tier": 1,
+            "bullets": [
+                "20+ vulnerabilidades em infraestrutura governamental/setorial — 5 fixes confirmados CERT.br/CTIR Gov (Mar–Jun 2026). 3 ondas de divulgação: zero retenção, multi-canal (CERT.br + CTIR Gov + direto), verificação pós-fix.",
+                "Phishing takedown Microsoft/OneDrive: origin derrubado via flood ~10k requests (HTTP 521 sustentado). Infra rotacionada mapeada, IOCs extraídos, reportada CERT.br/Cloudflare.",
+                "Pipeline Threat Intel: Browser → JS download → Custom Base91 decoder (3 alfabetos, 176 strings) → IOC extraction (PageConfig, tokens, OneDrive redirect) → CERT.br/Cloudflare report.",
+            ],
+        },
         {
             "name": "HarpIA",
             "url": "github.com/xAngryBadger/harpia",
@@ -397,17 +438,20 @@ PROJECTS = {
                 "Conversor Markdown → PDF com preview live split-pane e renderização WeasyPrint profissional. Backend FastAPI + WeasyPrint com CSS Paged Media (@page, headers/footers), túnel cloudflared gratuito via Google Colab.",
             ],
         },
-        {
-            "name": "Cegonha",
-            "url": "github.com/xAngryBadger/cegonha",
-            "tech": "React 19 · TypeScript · FastAPI · reportlab",
-            "tier": 2,
-            "bullets": [
-                "Gerador de currículo com formulários estruturados e exportação PDF server-side via FastAPI + reportlab. Paleta sage green com tipografia editorial. Suporte bilíngue (pt/en).",
-            ],
-        },
     ],
     "en": [
+        {
+            "name": "Security Disclosures & Threat Intel",
+            "url": "github.com/xAngryBadger/security-disclosures",
+            "tech": "OSINT · Nmap · Burp Suite · Shodan · Base91 Decoder · CERT.br/CTIR Gov · LGPD · NIST CSF",
+            "tier": 1,
+            "bullets": [
+                "20+ vulnerabilities in Brazilian government/sector infrastructure — 5 fixes confirmed via CERT.br/CTIR Gov (Mar–Jun 2026). Three disclosure waves: zero retention, multi-channel notification, post-fix verification.",
+                "Microsoft/OneDrive phishing takedown: origin server toppled via sustained ~10k requests (HTTP 521). Rotated infra mapped, IOCs extracted, reported to CERT.br/Cloudflare.",
+                "Threat Intel Pipeline: Browser → JS download → Custom Base91 decoder (3 alphabets, 176 strings) → IOC extraction (PageConfig, tokens, OneDrive redirect) → CERT.br report.",
+                "Methodology NIST CSF + LGPD Art. 46/48: Passive Recon → Exposure Verification → Documentation → Secure Deletion (shred) → Multi-channel Notification → Post-Fix Verification → Documented Closure.",
+            ],
+        },
         {
             "name": "HarpIA",
             "url": "github.com/xAngryBadger/harpia",
@@ -513,15 +557,6 @@ PROJECTS = {
                 "Markdown → PDF converter with live split-pane preview and professional WeasyPrint rendering. FastAPI + WeasyPrint backend with CSS Paged Media (@page, headers/footers), free cloudflared tunnel via Google Colab.",
             ],
         },
-        {
-            "name": "Cegonha",
-            "url": "github.com/xAngryBadger/cegonha",
-            "tech": "React 19 · TypeScript · FastAPI · reportlab",
-            "tier": 2,
-            "bullets": [
-                "Resume generator with structured forms and server-side PDF export via FastAPI + reportlab. Sage green palette with editorial typography. Bilingual support (pt/en).",
-            ],
-        },
     ],
 }
 
@@ -584,6 +619,10 @@ CERTIFICATIONS = {
         {"name": "Introdução à Cibersegurança", "issuer": "Cisco Networking Academy", "context": "Segurança de redes e ameaças cibernéticas."},
         {"name": "Segurança em TI", "issuer": "Fundação Bradesco", "context": "Proteção de infraestrutura e dados corporativos."},
         {"name": "Inglês Fluente (3 anos)", "issuer": "KUMON", "context": "Documentação técnica e reuniões com equipes internacionais."},
+        {"name": "eJPTv2 / eCPPTv2 / OSCP", "issuer": "INE / eLearnSecurity", "context": "Em andamento / Planejado 2026 — Hands-on pentesting, AD, pivoting, evasion."},
+        {"name": "eWPTX / eWPTXv2", "issuer": "eLearnSecurity", "context": "Planejado 2026 — Web app pentesting avançado (WAF bypass, auth bypass, business logic)."},
+        {"name": "Cloud Security (AZ-500 / CCSP)", "issuer": "Microsoft / (ISC)²", "context": "Planejado 2026 — Azure security, identity, data, governance."},
+        {"name": "MITRE ATT&CK Defender (MAD)", "issuer": "MITRE", "context": "Planejado 2026 — ATT&CK mapping, detection engineering, threat-informed defense."},
     ],
     "en": [
         {"name": "Python Essentials 1 & 2", "issuer": "Cisco Networking Academy", "context": "Fundamentals + advanced Python (OOP, libraries, cert prep)."},
@@ -594,22 +633,26 @@ CERTIFICATIONS = {
         {"name": "Intro to Cybersecurity", "issuer": "Cisco Networking Academy", "context": "Network security and cyber threats."},
         {"name": "IT Security", "issuer": "Bradesco Foundation", "context": "Corporate infrastructure and data protection."},
         {"name": "Fluent English (3 years)", "issuer": "KUMON", "context": "Technical documentation and meetings with international teams."},
+        {"name": "eJPTv2 / eCPPTv2 / OSCP", "issuer": "INE / eLearnSecurity", "context": "In progress / Planned 2026 — Hands-on pentesting, AD, pivoting, evasion."},
+        {"name": "eWPTX / eWPTXv2", "issuer": "eLearnSecurity", "context": "Planned 2026 — Advanced web app pentesting (WAF bypass, auth bypass, business logic)."},
+        {"name": "Cloud Security (AZ-500 / CCSP)", "issuer": "Microsoft / (ISC)²", "context": "Planned 2026 — Azure security, identity, data, governance."},
+        {"name": "MITRE ATT&CK Defender (MAD)", "issuer": "MITRE", "context": "Planned 2026 — ATT&CK mapping, detection engineering, threat-informed defense."},
     ],
 }
 
 LANGUAGES = {
-    "pt": "Português — Nativo · Inglês — Fluente (KUMON, 3 anos)",
-    "en": "Portuguese — Native · English — Fluent (KUMON, 3 years)",
+    "pt": "Português (nativo) · Inglês (fluente, KUMON 3 anos)",
+    "en": "Portuguese (native) · English (fluent, KUMON 3 years)",
 }
 
 
 # ── Page footer ─────────────────────────────────────────────────────────────
 def _footer(canvas, doc):
     canvas.saveState()
-    footer_y = 7 * mm
+    footer_y = 5 * mm
     canvas.setStrokeColor(LIGHT_RULE)
     canvas.setLineWidth(0.3)
-    canvas.line(doc.leftMargin, footer_y + 2.5*mm, PAGE_W - doc.rightMargin, footer_y + 2.5*mm)
+    canvas.line(doc.leftMargin, footer_y + 2*mm, PAGE_W - doc.rightMargin, footer_y + 2*mm)
     canvas.restoreState()
 
 
@@ -623,11 +666,11 @@ def build_pdf(lang: str, output_path: str):
         return styles[key]
 
     def section_heading(text: str):
-        story.append(Spacer(1, 0.5*mm))
+        story.append(Spacer(1, 0.3*mm))
         story.append(Paragraph(text.upper(), s("section_head")))
         story.append(HRFlowable(
             width="100%", thickness=0.8, color=DARK,
-            spaceBefore=0.5*mm, spaceAfter=2*mm,
+            spaceBefore=0.3*mm, spaceAfter=1.5*mm,
         ))
 
     def bullet(text: str):
@@ -719,23 +762,49 @@ def build_pdf(lang: str, output_path: str):
             proj_block.append(Paragraph(
                 f"- {b}", s("bullet"),
             ))
-        proj_block.append(Spacer(1, 0.8*mm))
+        proj_block.append(Spacer(1, 0.5*mm))
         story.append(KeepTogether(proj_block))
 
-    # ── Certifications ──────────────────────────────────────────────────
+    # ── Certifications — 2-column layout to fit page budget ────────────
     section_heading("Certifications" if lang == "en" else "Certificações")
-    for cert in CERTIFICATIONS[lang]:
-        line = f"- <b>{cert['name']}</b> — {cert['issuer']}"
-        if cert["context"]:
-            line += f" — {cert['context']}"
-        story.append(Paragraph(line, s("cert_item")))
+    pairs = []
+    half = (len(CERTIFICATIONS[lang]) + 1) // 2
+    for i in range(half):
+        left = CERTIFICATIONS[lang][i]
+        left_html = f"<font size='7'><b>{left['name']}</b> — {left['issuer']}"
+        if left["context"]:
+            left_html += f" — <i>{left['context']}</i>"
+        left_html += "</font>"
+        if i + half < len(CERTIFICATIONS[lang]):
+            right = CERTIFICATIONS[lang][i + half]
+            right_html = f"<font size='7'><b>{right['name']}</b> — {right['issuer']}"
+            if right["context"]:
+                right_html += f" — <i>{right['context']}</i>"
+            right_html += "</font>"
+            pairs.append([Paragraph(left_html, s("cert_item")),
+                          Paragraph(right_html, s("cert_item"))])
+        else:
+            pairs.append([Paragraph(left_html, s("cert_item")),
+                          Paragraph("", s("cert_item"))])
+    cert_table = Table(
+        pairs,
+        colWidths=[(PAGE_W - 32*mm - 4*mm) / 2] * 2,
+    )
+    cert_table.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+        ("TOPPADDING", (0, 0), (-1, -1), 0),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 0.3*mm),
+    ]))
+    story.append(cert_table)
 
     # ── Languages ───────────────────────────────────────────────────────
     section_heading("Languages" if lang == "en" else "Idiomas")
     story.append(Paragraph(LANGUAGES[lang], s("skills_line")))
 
     # Portfolio CTA
-    story.append(Spacer(1, 5*mm))
+    story.append(Spacer(1, 3*mm))
     cta_text = (
         "Case studies completos, demos e codigo-fonte -> "
         if lang == "pt" else
@@ -751,7 +820,7 @@ def build_pdf(lang: str, output_path: str):
         output_path,
         pagesize=A4,
         topMargin=10*mm,
-        bottomMargin=12*mm,
+        bottomMargin=10*mm,
         leftMargin=16*mm,
         rightMargin=16*mm,
     )
