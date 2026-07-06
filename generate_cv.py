@@ -207,16 +207,20 @@ PROFILE = {
     "pt": (
         "De Química Industrial para Computação: primeiro Python em 2022 (Thonny IDE, sem GPT, "
         "aulas extras à tarde). Construí o ForestAI do zero anotando manualmente "
-        "imagens de drone da Fundação Renova. Na Paware, migrei centenas de GB para Azure Cosmos DB "
-        "(Meritage Homes, EUA) e arquitetei pipelines orquestrados por LLM para o HelloSocial "
+        "imagens de drone da Fundação Renova. Contrato freelance com a Meritage Homes (EUA) — "
+        "migrei 500GB para Azure Cosmos DB com zero downtime, arquitetei pipelines de IA "
+        "(GPT-4.1, DALL-E 3, Flux) e infra de chatbot cross-platform. Na Paware, "
+        "arquitetei pipelines orquestrados por LLM para o HelloSocial "
         "(GPT-4.1, DALL-E 3, Flux). Aprendo resolvendo problemas reais — "
         "de MIME type cross-platform a agentes ReAct com schema enforcement."
     ),
     "en": (
         "From Industrial Chemistry to Computer Engineering: first Python in 2022 (Thonny IDE, no GPT, "
         "extra afternoon classes). Built ForestAI from scratch, manually annotating "
-        "drone images from Fundação Renova. At Paware, migrated hundreds of GB to Azure Cosmos DB "
-        "(Meritage Homes, USA) and architected LLM-orchestrated pipelines for HelloSocial "
+        "drone images from Fundação Renova. Freelance contract with Meritage Homes (USA) — "
+        "migrated 500GB to Azure Cosmos DB with zero downtime, architected AI pipelines "
+        "(GPT-4.1, DALL-E 3, Flux) and cross-platform chatbot infra. At Paware, "
+        "architected LLM-orchestrated pipelines for HelloSocial "
         "(GPT-4.1, DALL-E 3, Flux). I learn by solving real problems — "
         "from cross-platform MIME types to ReAct agents with schema enforcement."
     ),
@@ -267,9 +271,22 @@ EXPERIENCE = {
             "period": "Out 2025 — Mai 2026",
             "location": "Remoto",
             "bullets": [
-                "Migrei centenas de GB de datasets legados do Google Drive para Azure Cosmos DB (Meritage Homes, EUA) — pipeline com extração automatizada, compressão e injeção em painéis para agente WhatsApp. Docker + validação de schema com rollback automático.",
+                "Migrei centenas de GB de datasets legados do Google Drive para Azure Cosmos DB — pipeline com extração automatizada, compressão e injeção em painéis para agente WhatsApp. Docker + validação de schema com rollback automático.",
                 "Resolvi problema cross-platform de MIME types (Android vs iOS) — validação que virou o backbone da migração Cosmos DB, com testes extensivos em dispositivos iOS.",
                 "Arquitetei pipeline de geração de imagens para o HelloSocial — pipeline multi-etapa com GPT-4.1 (geração, curadoria, composição, validação), Flux Kontext Pro + DALL-E 3 + Placid/Canva, fallback SQLite/PIL local.",
+            ],
+        },
+        {
+            "company": "Meritage Homes (EUA)",
+            "role": "Software Engineer (Freelance)",
+            "period": "Nov 2025 — Dez 2025",
+            "location": "Remoto",
+            "bullets": [
+                "Migrei 500GB de dados críticos para Azure Cosmos DB com zero downtime — arquitetura multi-região, consistência eventual, failover automático.",
+                "Arquitetei pipelines de IA (GPT-4.1, DALL-E 3, Flux) para geração de ativos criativos — redação, imagem, vídeo — integrados ao workflow de marketing da construtora.",
+                "Desenvolvi infraestrutura de chatbot cross-platform (iOS/Android) com roteamento de intenção context-aware, tradução PT/ES/EN.",
+                "Engenhei pipelines de parsing de PDF para ingestão por LLM, com tradução/transcrição em espanhol e português.",
+                "Conduzi sondagens E2E e UAT simulando workflows de corretores — feedback em tempo real para stakeholders.",
             ],
         },
         {
@@ -302,9 +319,22 @@ EXPERIENCE = {
             "period": "Oct 2025 — May 2026",
             "location": "Remote",
             "bullets": [
-                "Migrated hundreds of GB of legacy datasets from Google Drive to Azure Cosmos DB (Meritage Homes, USA) — automated extraction, compression, injection into panels for WhatsApp agent. Docker + schema validation with auto-rollback.",
+                "Migrated hundreds of GB of legacy datasets from Google Drive to Azure Cosmos DB — automated extraction, compression, injection into panels for WhatsApp agent. Docker + schema validation with auto-rollback.",
                 "Resolved cross-platform MIME type issue (Android vs iOS) — validation layer that became the backbone of the Cosmos DB migration, with extensive testing on iOS devices.",
                 "Architected image-generation pipeline for HelloSocial — multi-step pipeline with GPT-4.1 (generation, curation, composition, validation), Flux Kontext Pro + DALL-E 3 + Placid/Canva, local SQLite/PIL fallback.",
+            ],
+        },
+        {
+            "company": "Meritage Homes (USA)",
+            "role": "Software Engineer (Freelance)",
+            "period": "Nov 2025 — Dec 2025",
+            "location": "Remote",
+            "bullets": [
+                "Migrated 500GB of critical data to Azure Cosmos DB with zero downtime — multi-region architecture, eventual consistency, auto-failover.",
+                "Architected AI pipelines (GPT-4.1, DALL-E 3, Flux) for creative asset generation — copywriting, image, video — integrated into the builder's marketing workflow.",
+                "Built cross-platform chatbot infrastructure (iOS/Android) with context-aware intent routing, PT/ES/EN translation.",
+                "Engineered PDF parsing pipelines for LLM ingestion with Spanish/Portuguese translation/transcription.",
+                "Conducted E2E probing and UAT simulating realtors' workflows — real-time feedback to stakeholders.",
             ],
         },
         {
